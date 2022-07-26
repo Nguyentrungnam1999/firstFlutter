@@ -18,84 +18,108 @@ class _MyAppState extends State<MyApp> {
   // double _price = 0;
   Transaction _transaction = Transaction(content: '', price: 0.0);
 
-  List<Transaction> _transactions = List<Transaction>.empty(growable: true);
+  final List<Transaction> _transactions = <Transaction>[];
 
   final _contentController = TextEditingController();
   final _priceController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'demo app ',
-      home: SafeArea(
-        child: Scaffold(
-          body: Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'date time \n ${DateFormat('dd-MM-yy').format(date)}',
-                style: TextStyle(
-                    fontSize: 30, color: Color.fromARGB(255, 65, 184, 28)),
-              ),
-              TextField(
-                  decoration: InputDecoration(labelText: 'Content'),
-                  controller: _contentController,
-                  onChanged: (value) {
-                    setState(() {
-                      _transaction.content = value;
-                    });
-                  }),
-              TextField(
-                  decoration: InputDecoration(labelText: 'Amount'),
-                  controller: _priceController,
-                  onChanged: (value) {
-                    setState(() {
-                      _transaction.price = double.tryParse(value) ?? 0;
-                    });
-                  }),
-              FlatButton(
-                onPressed: (() {
-                  print('${_transaction.content} - ${_transaction.price}');
-                  setState(() {
-                    print('vao trong setState');
-                    print('=============${_transaction}');
-                    _transactions.add(_transaction);
-                    // _transactions =  Transaction(content: '', price: 0.0);
-                    // _transaction.content = '';
-                    // _transaction.price = 0.0;
-                  });
-                }),
-                child: Text('Insert Transaction'),
-                color: Colors.greenAccent,
-                textColor: Colors.white,
-              ),
-              // Column(children: <Widget>[
-              //   _transactions.map((e) {
-              //     return ListTile(
-              //       leading: Icon(Icons.abc),
-              //       title: Text('asdfasd'),
-              //     );
-              //   }).toList(),
-              // ]),
-              Container(
-                child: Column(
-                  children: _transactions
-                      .map((e) => new ListTile(
-                            leading: Icon(Icons.accessibility_new),
-                            title: Text('${e.content}'),
-                            subtitle: Text('${e.price}'),
-                            textColor: Colors.black,
-                            onTap: () {
-                              print('da tap');
-                            },
-                          ))
-                      .toList(),
+    ListView _buildWidgetList() {
+      // int index = 0;
+      return ListView.builder(
+          itemCount: _transactions.length,
+          itemBuilder: ((context, index) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              color: (index - 1) % 2 == 0 ? Colors.green : Colors.teal,
+              elevation: 10,
+              child: ListTile(
+                leading: const Icon(Icons.access_alarm),
+                title: Text(
+                  _transactions[index].content,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white),
                 ),
-              )
-            ],
-          )),
-        ),
-      ),
-    );
+                subtitle: Text('Price: ${_transactions[index].price}',
+                    style: TextStyle(fontSize: 18, color: Colors.white)),
+                onTap: () {
+                  print('You clicked: ${_transactions[index].content}');
+                },
+              ),
+            );
+          }));
+    }
+
+    return MaterialApp(
+        title: "This is a StatefulWidget",
+        home: Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                'Demo AppBar',
+                style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+              ),
+              actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {},
+              child: const Icon(Icons.add),
+            ),
+            // key: _scaffoldKey,
+            body: SafeArea(
+              minimum: const EdgeInsets.only(left: 20, right: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Content'),
+                    controller: _contentController,
+                    onChanged: (text) {
+                      setState(() {
+                        _transaction.content = text;
+                      });
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(labelText: 'Amount(money)'),
+                    controller: _priceController,
+                    onChanged: (text) {
+                      setState(() {
+                        _transaction.price =
+                            double.tryParse(text) ?? 0; //if error, value = 0
+                      });
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                  ),
+                  ButtonTheme(
+                    height: 50,
+                    child: FlatButton(
+                      child: Text(
+                        'Insert Transaction',
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      color: Colors.pinkAccent,
+                      textColor: Colors.white,
+                      onPressed: () {
+                        setState(() {
+                          _transactions.add(_transaction);
+                          _transaction = Transaction(content: '', price: 0.0);
+                          _contentController.text = '';
+                          _priceController.text = '';
+                        });
+                      },
+                    ),
+                  ),
+                  Container(
+                    height: 500,
+                    child: _buildWidgetList(),
+                  )
+                ],
+              ),
+            )));
   }
 }
