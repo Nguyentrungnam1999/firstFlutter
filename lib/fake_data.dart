@@ -24,7 +24,7 @@ var FAKE_FOODS = [
       categoryId: 1),
   Food(
       name: "Pizza tonda",
-      urlImage: "https://www.angelopo.com/filestore/images/pizza-tonda.jpg",
+      urlImage: "https://en.wikipedia.org/wiki/File:Pizza-3007395.jpg",
       duration: Duration(minutes: 15),
       complexity: Complexity.Hard,
       ingredients: [
@@ -35,7 +35,7 @@ var FAKE_FOODS = [
         'Mushrooms',
         'pepperoncini'
       ],
-      categoryId: 2),
+      categoryId: 3),
   Food(
       name: "Makizushi",
       urlImage:
@@ -50,14 +50,14 @@ var FAKE_FOODS = [
       duration: Duration(minutes: 15),
       complexity: Complexity.Simple,
       categoryId: 1),
-  Food(
-      name: "Neapolitan pizza",
-      urlImage:
-          "https://img-global.cpcdn.com/recipes/7f1a5380090f6300/1280x1280sq70/photo.jpg",
-      duration: Duration(minutes: 20),
-      complexity: Complexity.Medium,
-      ingredients: ['Fontina cheese', 'Tomato sauce', 'Onions', 'Mushrooms'],
-      categoryId: 2),
+  // Food(
+  //     name: "Neapolitan pizza",
+  //     urlImage:
+  //         "https://en.wikipedia.org/wiki/File:Eq_it-na_pizza-margherita_sep2005_sml.jpg",
+  //     duration: Duration(minutes: 20),
+  //     complexity: Complexity.Medium,
+  //     ingredients: ['Fontina cheese', 'Tomato sauce', 'Onions', 'Mushrooms'],
+  //     categoryId: 2),
   Food(
       name: "Sashimi",
       urlImage:
